@@ -1,0 +1,25 @@
+# Prevent directory listing
+Options -Indexes
+
+# Prevent access to .htaccess file
+<Files .htaccess>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Prevent access to sensitive files
+<FilesMatch "^(db\.php|session\.php)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Create uploads directory if it doesn't exist
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^uploads/$ - [F]
+</IfModule>
+
+# Set max upload file size
+php_value upload_max_filesize 5M
+php_value post_max_size 6M
